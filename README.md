@@ -1,4 +1,4 @@
-# go-backend for mind-demo
+# go-backend
 
 # using
 
