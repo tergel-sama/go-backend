@@ -1,0 +1,95 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "demo for mind",
+        "title": "mind-demo-backend",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/api/test/": {
+            "post": {
+                "tags": [
+                    "test"
+                ],
+                "summary": "create test",
+                "parameters": [
+                    {
+                        "description": "User information",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateTest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/test/{id}": {
+            "get": {
+                "tags": [
+                    "test"
+                ],
+                "summary": "get test by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Item ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "models.CreateTest": {
+            "type": "object",
+            "required": [
+                "afterDesc",
+                "ageCls",
+                "beforeDesc",
+                "desc",
+                "img",
+                "isActive",
+                "minute",
+                "name"
+            ],
+            "properties": {
+                "afterDesc": {
+                    "type": "string"
+                },
+                "ageCls": {
+                    "type": "string"
+                },
+                "beforeDesc": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "exampleReport": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "minute": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

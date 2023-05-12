@@ -1,0 +1,8 @@
+# Database config
+database:
+  driver: postgres
+  url: postgresql://postgres:password@localhost:5432/minddemo?sslmode=disable&search_path=public
+
+# Migrate database config
+migrate:
+  dir: file://migrate

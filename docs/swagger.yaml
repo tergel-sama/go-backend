@@ -1,0 +1,65 @@
+basePath: /
+definitions:
+  models.CreateTest:
+    properties:
+      afterDesc:
+        type: string
+      ageCls:
+        type: string
+      beforeDesc:
+        type: string
+      desc:
+        type: string
+      exampleReport:
+        type: string
+      img:
+        type: string
+      isActive:
+        type: boolean
+      minute:
+        type: integer
+      name:
+        type: string
+    required:
+    - afterDesc
+    - ageCls
+    - beforeDesc
+    - desc
+    - img
+    - isActive
+    - minute
+    - name
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: demo for mind
+  title: mind-demo-backend
+  version: "1.0"
+paths:
+  /api/test/:
+    post:
+      parameters:
+      - description: User information
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTest'
+      responses: {}
+      summary: create test
+      tags:
+      - test
+  /api/test/{id}:
+    get:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      summary: get test by id
+      tags:
+      - test
+swagger: "2.0"
