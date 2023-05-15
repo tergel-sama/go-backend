@@ -54,17 +54,25 @@ func (q *Queries) GetQuestionById(ctx context.Context, id int32) (Question, erro
 
 const getQuestionByTestId = `-- name: GetQuestionByTestId :many
 SELECT 
-  q."Id", q."QuestionGroupId", q."Question" 
+  q."Id", q."QuestionGroupId", q."Question"
 FROM 
   "Test" t 
   INNER JOIN "QuestionGroup" qg ON t."Id" = qg."TestId" 
   INNER JOIN "Question" q ON q."QuestionGroupId" = qg."Id" 
 WHERE 
-  t."Id" = $1 :: INT
+  t."Id" = $1 :: INT ORDER BY q."Id" ASC
+LIMIT
+    $3 :: INT OFFSET $2 :: INT
 `
 
-func (q *Queries) GetQuestionByTestId(ctx context.Context, testid int32) ([]Question, error) {
-	rows, err := q.db.QueryContext(ctx, getQuestionByTestId, testid)
+type GetQuestionByTestIdParams struct {
+	TestId int32
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) GetQuestionByTestId(ctx context.Context, arg GetQuestionByTestIdParams) ([]Question, error) {
+	rows, err := q.db.QueryContext(ctx, getQuestionByTestId, arg.TestId, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -84,4 +92,22 @@ func (q *Queries) GetQuestionByTestId(ctx context.Context, testid int32) ([]Ques
 		return nil, err
 	}
 	return items, nil
+}
+
+const getQuestionByTestIdRowCnt = `-- name: GetQuestionByTestIdRowCnt :one
+SELECT 
+  COUNT(q.*) 
+FROM 
+  "Test" t 
+  INNER JOIN "QuestionGroup" qg ON t."Id" = qg."TestId" 
+  INNER JOIN "Question" q ON q."QuestionGroupId" = qg."Id" 
+WHERE 
+  t."Id" = $1 :: INT ORDER BY q."Id" ASC
+`
+
+func (q *Queries) GetQuestionByTestIdRowCnt(ctx context.Context, testid int32) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getQuestionByTestIdRowCnt, testid)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
 }
