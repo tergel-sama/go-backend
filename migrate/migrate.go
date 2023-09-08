@@ -1,7 +1,7 @@
 package migrate
 
 import (
-	"mind-demo-backend/conf"
+	"go-backend/conf"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"

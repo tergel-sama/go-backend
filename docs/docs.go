@@ -107,7 +107,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:3000",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "mind-demo-backend",
+	Title:            "go-backend",
 	Description:      "demo for mind",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

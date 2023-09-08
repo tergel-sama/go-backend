@@ -1,12 +1,12 @@
 package main
 
 import (
+	"go-backend/conf"
+	"go-backend/db"
+	"go-backend/handlers"
+	"go-backend/migrate"
+	"go-backend/routes"
 	"log"
-	"mind-demo-backend/conf"
-	"mind-demo-backend/db"
-	"mind-demo-backend/handlers"
-	"mind-demo-backend/migrate"
-	"mind-demo-backend/routes"
 	"os"
 )
 
@@ -15,7 +15,7 @@ var (
 	lerr *log.Logger
 )
 
-// @title mind-demo-backend
+// @title go-backend
 // @version 1.0
 // @description demo for mind
 // @host localhost:3000

@@ -1,10 +1,10 @@
 package routes
 
 import (
-	"mind-demo-backend/handlers"
-	"mind-demo-backend/utils"
+	"go-backend/handlers"
+	"go-backend/utils"
 
-	_ "mind-demo-backend/docs"
+	_ "go-backend/docs"
 
 	swagger "github.com/arsmn/fiber-swagger/v2"
 

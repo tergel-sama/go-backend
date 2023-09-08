@@ -3,9 +3,9 @@ package handlers
 import (
 	"context"
 	"database/sql"
+	"go-backend/conf"
+	"go-backend/db"
 	"log"
-	"mind-demo-backend/conf"
-	"mind-demo-backend/db"
 
 	"github.com/go-playground/validator/v10"
 )

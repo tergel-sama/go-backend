@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "demo for mind",
-        "title": "mind-demo-backend",
+        "title": "go-backend",
         "contact": {},
         "version": "1.0"
     },

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"mind-demo-backend/db"
-	"mind-demo-backend/models"
-	"mind-demo-backend/utils"
+	"go-backend/db"
+	"go-backend/models"
+	"go-backend/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

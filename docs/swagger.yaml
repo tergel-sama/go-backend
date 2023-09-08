@@ -21,45 +21,45 @@ definitions:
       name:
         type: string
     required:
-    - afterDesc
-    - ageCls
-    - beforeDesc
-    - desc
-    - img
-    - isActive
-    - minute
-    - name
+      - afterDesc
+      - ageCls
+      - beforeDesc
+      - desc
+      - img
+      - isActive
+      - minute
+      - name
     type: object
 host: localhost:3000
 info:
   contact: {}
   description: demo for mind
-  title: mind-demo-backend
+  title: go-backend
   version: "1.0"
 paths:
   /api/test/:
     post:
       parameters:
-      - description: User information
-        in: body
-        name: requestBody
-        required: true
-        schema:
-          $ref: '#/definitions/models.CreateTest'
+        - description: User information
+          in: body
+          name: requestBody
+          required: true
+          schema:
+            $ref: "#/definitions/models.CreateTest"
       responses: {}
       summary: create test
       tags:
-      - test
+        - test
   /api/test/{id}:
     get:
       parameters:
-      - description: Item ID
-        in: path
-        name: id
-        required: true
-        type: integer
+        - description: Item ID
+          in: path
+          name: id
+          required: true
+          type: integer
       responses: {}
       summary: get test by id
       tags:
-      - test
+        - test
 swagger: "2.0"

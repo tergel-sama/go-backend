@@ -1,6 +1,6 @@
-module mind-demo-backend
+module go-backend
 
-go 1.18
+go 1.21
 
 require (
 	github.com/arsmn/fiber-swagger/v2 v2.31.1
