@@ -10,7 +10,7 @@ import (
 )
 
 func (hd *Handlers) GetTestById(ctx *fiber.Ctx) error {
-	queries := db.New(hd.pgsql)
+	queries, _, _ := hd.queries()
 	id, err := ctx.ParamsInt("id")
 	if err != nil {
 		return fiber.ErrBadRequest
@@ -26,7 +26,7 @@ func (hd *Handlers) GetTestById(ctx *fiber.Ctx) error {
 }
 
 func (hd *Handlers) CreateTest(ctx *fiber.Ctx) error {
-	queries := db.New(hd.pgsql)
+	queries, _, _ := hd.queries()
 
 	body := &models.CreateTest{}
 
