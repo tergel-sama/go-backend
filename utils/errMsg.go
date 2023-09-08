@@ -25,7 +25,7 @@ func CustomErrMsg(ctx *fiber.Ctx, err error) error {
 
 func ErrMsg(err error) *fiber.Error {
 	if err == sql.ErrNoRows {
-		return fiber.NewError(fiber.StatusNotFound, "олдсонгүй")
+		return fiber.NewError(fiber.StatusNotFound, "өгөгдөл олдсонгүй")
 	}
 
 	return fiber.NewError(fiber.StatusUnprocessableEntity, "алдаа гарлаа")
