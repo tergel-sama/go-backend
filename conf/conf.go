@@ -2,7 +2,6 @@ package conf
 
 import (
 	"errors"
-	"io/ioutil"
 	"net/url"
 	"os"
 
@@ -51,7 +50,7 @@ func CreateConfig(c *Config) error {
 	}
 
 	// Read the file as a byte slice.
-	data, err := ioutil.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}

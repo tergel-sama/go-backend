@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	// creating customer log handler for slog
+	// creating customer loghandler for slog
 	logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		Level:     slog.LevelDebug,
 		AddSource: true,
