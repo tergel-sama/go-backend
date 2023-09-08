@@ -6,12 +6,9 @@ import (
 	"go-backend/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/exp/slog"
 )
 
-// @Summary get test by id
-// @Tags Test
-// @Param id path int true "Item ID"
-// @Router /api/test/{id} [get]
 func (hd *Handlers) GetTestById(ctx *fiber.Ctx) error {
 	queries := db.New(hd.pgsql)
 	id, err := ctx.ParamsInt("id")
@@ -21,17 +18,13 @@ func (hd *Handlers) GetTestById(ctx *fiber.Ctx) error {
 
 	testInfo, err := queries.GetTestById(ctx.Context(), int32(id))
 	if err != nil {
-		hd.lerr.Printf("unable to get test by id: %v", err)
+		slog.Error("unable to get test by id", slog.Any("err", err))
 		return utils.ErrMsg(err)
 	}
 
 	return ctx.JSON(testInfo)
 }
 
-// @Summary create test
-// @Tags Test
-// @Param requestBody body models.CreateTest true "Test information"
-// @Router /api/test/ [post]
 func (hd *Handlers) CreateTest(ctx *fiber.Ctx) error {
 	queries := db.New(hd.pgsql)
 
@@ -59,7 +52,7 @@ func (hd *Handlers) CreateTest(ctx *fiber.Ctx) error {
 		IsActive:      body.IsActive,
 	})
 	if err != nil {
-		hd.lerr.Printf("unable to create test: %v", err)
+		slog.Error("unable to create test", slog.Any("err", err))
 		return utils.ErrMsg(err)
 	}
 

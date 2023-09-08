@@ -6,43 +6,74 @@ import (
 	"go-backend/handlers"
 	"go-backend/migrate"
 	"go-backend/routes"
-	"log"
 	"os"
+	"strings"
+	"time"
+
+	"golang.org/x/exp/slog"
 )
 
-var (
-	lstd *log.Logger
-	lerr *log.Logger
-)
-
-// @title go-backend
-// @version 1.0
-// @description demo for mind
-// @host localhost:3000
-// @BasePath /
 func main() {
-	// Create a standard and the error logger objects.
-	lstd = log.New(os.Stdout, "INFO:", log.LstdFlags|log.Lshortfile)
-	lstd.Printf("Standard logger object %s created.", lstd.Prefix())
-	lerr = log.New(os.Stdout, "ERROR:", log.LstdFlags|log.Lshortfile)
-	lstd.Printf("Error logger object %s created.", lerr.Prefix())
+	// creating customer log handler for slog
+	logHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		Level:     slog.LevelDebug,
+		AddSource: true,
+		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key == slog.TimeKey {
+				a.Key = "date"
+
+				outputLayout := "2006/01/02 15:04:05"
+				formattedTimestamp := time.Now().Format(outputLayout)
+
+				a.Value = slog.StringValue(formattedTimestamp)
+			} else if a.Key == slog.SourceKey {
+				a.Key = "file"
+
+				if len(strings.Split(a.Value.String(), " ")) < 3 {
+					return a
+				}
+
+				filepath := strings.Split(a.Value.String(), " ")[1]
+				fileline := strings.Split(a.Value.String(), " ")[2]
+
+				lastIndex := strings.LastIndex(filepath, "go-backend/")
+				if lastIndex != -1 {
+					msg := filepath[lastIndex+1+len("go-backend"):] + ":" + fileline[:len(fileline)-1]
+
+					a.Value = slog.StringValue(msg)
+				} else {
+					a.Value = slog.StringValue("Not from our project")
+				}
+			}
+
+			return a
+		},
+	})
+
+	logger := slog.New(logHandler)
+
+	// set customer logger to defualt slog
+	slog.SetDefault(logger)
 
 	// Check if the file exists, and read the contents, unmarshal the yaml.
 	c := &conf.Config{}
 	if err := conf.CreateConfig(c); err != nil {
-		lerr.Printf("Unable to create the config, %v.", err)
+		slog.Error("Unable to create the config", slog.Any("err", err))
+		os.Exit(1)
 	}
 
 	// Validate the configuratin attributes.
 	if err := c.Validate(); err != nil {
-		lerr.Printf("Unable to validate the config, %v.", err)
+		slog.Error("Unable to validate the config", slog.Any("err", err))
+		os.Exit(1)
 	}
 
 	// Migarate database
 	if err := migrate.MigrateDatabase(c); err != nil {
-		lerr.Printf("Unable to migrate the database, %v.", err)
+		slog.Error("Unable to migrate the database", slog.Any("err", err))
+		os.Exit(1)
 	} else {
-		lstd.Printf("Migrate database completed.")
+		slog.Info("Migrate database completed.")
 	}
 
 	// The returned DB is safe for concurrent use by multiple goroutines
@@ -51,14 +82,14 @@ func main() {
 	// close a DB.
 	pgsql, err := db.CreateSqlDB(c)
 	if err != nil {
-		lstd.Printf("Unable to create the database object, %v.", err)
+		slog.Error("Unable to create the database object", slog.Any("err", err))
 		os.Exit(1)
 	}
 
-	lstd.Println("Connected to the database.")
+	slog.Info("Connected to the database.")
 
 	// Creating handlers for fiber route
-	handlers := handlers.NewHandlers(lstd, lerr, c, pgsql)
+	handlers := handlers.NewHandlers(c, pgsql)
 
 	// Creating fiber
 	routes := routes.Routes(handlers)
