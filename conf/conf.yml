@@ -6,3 +6,9 @@ database:
 # Migrate database config
 migrate:
   dir: file://migrate
+
+# RSA keys for auth
+rsa:
+  size: 2048
+  public: ./secure/rsa.pub
+  private: ./secure/rsa

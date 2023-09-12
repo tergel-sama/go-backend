@@ -18,9 +18,16 @@ type Migrate struct {
 	Dir string `yaml:"dir"`
 }
 
+type Rsa struct {
+	Size    int    `yaml:"size"`
+	Public  string `yaml:"public"`
+	Private string `yaml:"private"`
+}
+
 type Config struct {
 	Database Database `yaml:"database"`
 	Migrate  Migrate  `yaml:"migrate"`
+	Rsa      Rsa      `yaml:"rsa"`
 }
 
 // Perform validation (i.e., data type, format) for config attributes.

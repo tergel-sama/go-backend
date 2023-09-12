@@ -6,6 +6,7 @@ import (
 	"go-backend/handlers"
 	"go-backend/migrate"
 	"go-backend/routes"
+	"go-backend/secure"
 	"os"
 	"strings"
 	"time"
@@ -87,6 +88,24 @@ func main() {
 	}
 
 	slog.Info("Connected to the database.")
+
+	// Create RSA key pair.
+	kp := secure.NewRsaKey(c)
+	if err := kp.ReadKeyPair(); err != nil {
+		slog.Error("Unable to read RSA key pair", slog.Any("err", err))
+
+		if err := kp.GenerateKeyPair(c.Rsa.Size); err != nil {
+			slog.Error("Unable to create RSA key pair", slog.Any("err", err))
+			os.Exit(1)
+		}
+
+		if err := kp.SaveKeyPair(); err != nil {
+			slog.Error("Unable to persist the RSA key pair", slog.Any("err", err))
+			os.Exit(1)
+		}
+
+		slog.Info("RSA key pair created.")
+	}
 
 	// Creating handlers for fiber route
 	handlers := handlers.NewHandlers(c, pgsql)

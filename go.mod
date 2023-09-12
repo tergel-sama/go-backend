@@ -5,6 +5,7 @@ go 1.21
 require (
 	github.com/go-playground/validator/v10 v10.13.0
 	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/jackc/pgx/v5 v5.2.0
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9
